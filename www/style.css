@@ -1,0 +1,71 @@
+h2 {
+    color:white;
+    background-color:#337ab7;
+    padding-left: 100px;
+    margin-left: -15px;
+    margin-right: -15px;
+    height: 48px;
+    padding-top: 8px;
+}
+
+hr {
+    border-top: 3px solid #fff;
+}
+
+#documentation {
+    margin-top: 82px;
+    border: 1px solid #c9c9c9;
+    border-radius: 4px;
+    padding: 8px;
+    margin-bottom: 12px;
+    background-color: #f5f7d0;
+}
+
+#symbol {
+    padding: 2px;
+}
+
+#add {
+    border: 2px solid lightgrey;
+    border-radius: 50px;
+    padding: 0;
+    margin: 0;x;
+    font-size:1.6em;
+    height: 1.5em;
+    width: 1.5em;
+    margin-top: 45px;
+}
+
+#exchange {
+    margin-bottom: -15px;
+}
+
+#stocks {
+    margin-bottom: 32px;
+}
+
+#plotselector {
+    margin-bottom: 0px;
+}
+
+#plotinputs {
+    margin-top: 0px;
+}
+
+#row2 {
+    display: none;
+}
+
+#confirm {
+    text-align: center;
+}
+
+#plot1input, #plot2input, #plot3input, #plot4input {
+    margin-top: -8px;
+    height: 24px;
+}
+
+#btnplot {
+    background-color: #0d5cf2;
+    color: white;
+}
