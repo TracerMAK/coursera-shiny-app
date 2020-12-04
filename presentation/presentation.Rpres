@@ -1,0 +1,100 @@
+Stock Price Analysis App
+========================================================
+author: Mark Kiel
+date: "`r Sys.Date()`"
+
+Purpose and Requirements
+========================================================
+
+Create a relatively simple application that tries to
+fulfill these requirements:
+
+- Allows a user to look up a symbol on two of the largest
+  American stock exchanges and get the security name.
+- Plot a time series of the adjusted closing stock price
+  for up to four different stock symbols.
+- Choose a specific start date to compare price trends
+  over the same time period.
+- Lets a user enable and disable a specific plot just
+  by checking a box.
+
+Demo: Choosing a Stock Symbol
+========================================================
+
+```{r rawhtml, results='asis', echo=FALSE}
+cat('<br />
+<span style="font-size:20px;margin-bottom:0px">Symbol lookup</span>
+<div style="margin-top:-32px">
+    <select id="symbols" onchange="updateCompany()">AAPL</select>
+    <input type="radio" name="exchange"><span style="font-size:16px">Nasdaq</span></input>
+    <input type="radio" name="exchange"><span style="font-size:16px">NYSE</span></input>
+    <br />
+    <span id="company" style="font-size:20px;color:blue">ATA Creativity Global - American Depositary Shares, each representing two common shares</span>
+<br /><br />
+</div>')
+```
+
+```{r getdata, echo=FALSE}
+data1 <- read.table("nasdaqlisted.txt", sep="|", nrows=10, header=T)
+symbols1 <- data1$Symbol
+companies1 <- data1$Security.Name
+```
+
+```{r rawjs, echo=FALSE, results='asis'}
+cat("<script>")
+cat("let arr = [", sapply(symbols1, function(x) paste0('"', x, '",')), "];")
+cat("let sb = document.getElementById('symbols');")
+cat("for (let i = 1; i <= 10; i++) {
+    option = document.createElement('option');
+    option.value = i;
+    option.text = arr[i-1];
+    sb.appendChild(option);
+}")
+
+cat("let companies = [", sapply(companies1, function(x) paste0('"', x, '",')), "];")
+cat("function updateCompany() {
+    let i = document.getElementById('symbols').value;
+    document.getElementById('company').innerHTML = companies[i-1];
+}")
+cat("</script>")
+```
+
+<p><span style="font-size:24px">
+Using the drop-down box, choose a ticker symbol and see the company name and
+description below the choice. In the application, choosing the exchange type
+will populate the drop-down with different choices.</span>
+</p>
+
+Demo: Viewing a Time Series Plot
+========================================================
+
+<div>
+    <p><span style="font-size:24px">The application allows for up to four different
+        stock symbol time series to be displayed for comparison. The start date
+        is also adjustable.</span>
+    </p>
+</div>
+
+```{r, echo=FALSE, results='hide'}
+library(quantmod)
+library(ggplot2)
+
+getSymbols(c("TSLA","NIO"), src="csv", file.path=c("TSLA.csv","NIO.csv"))
+adjprices <- do.call(merge, lapply(c("TSLA", "NIO"), function(x) Ad(get(x))))
+autoplot(adjprices, xlab="Date", main="Daily Adjusted Stock Price Trends", geom="line") + 
+         facet_grid(Series ~ ., scales="free_y")
+```
+
+Closing Thoughts
+=======================================================
+<span style="font-size:24px">Finished application is at Shinyapps.io:<span>
+<span style="font-size:24px">[tracermak.shinyapps.io/coursera-project](https://tracermak.shinyapps.io/coursera-project)</span>
+<br />
+<span style="font-size:24px">Application and presentation source on GitHub:</span>
+<span style="font-size:24px">[github.com/TracerMAK/coursera-shiny-app](https://github.com/TracerMAK/coursera-shiny-app)</span>
+<br /><br />
+<span style="font-size:28px">Goals during application development:</span><br />
+(1) Explore the various Shiny Widgets<br />
+(2) Incorporate custom html and css within the markdown<br />
+(3) Learn the reactive programming environment<br />
+(4) Develop something that could be extended further with more features
